@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nature Congratulations — Announcement</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* 烟花粒子 */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hidden { display: none; }
+
+  /* 拖尾效果 */
+  .trail {
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
+  }
+</style>
+</head>
+<body class="bg-white text-gray-800 font-serif relative overflow-hidden">
+
+<!-- Header -->
+<header class="py-4 px-6 flex items-center justify-between">
+  <!-- 左边部分 -->
+  <div class="flex flex-col items-start">
+    <h1 class="text-2xl font-serif font-bold tracking-tight text-red-700" style="font-family: 'Times New Roman', serif;">
+      Nature Congratulations
+    </h1>
+    <p class="text-sm italic text-gray-500 mt-1">
+      An open access celebration
+    </p>
+    <div class="w-full border-b border-gray-300 mt-2"></div>
+  </div>
+
+  <!-- 右边部分：可点击的 IF -->
+  <div 
+    class="ml-4 text-center cursor-pointer bg-red-50 hover:bg-red-100 px-3 py-2 rounded-xl shadow-sm transition"
+    onclick="toggleIF()"
+  >
+    <div id="ifText" class="text-lg font-serif text-red-800 tracking-wide" style="font-family: 'Times New Roman', serif;">
+      IF = 99
+    </div>
+    <p class="text-xs text-gray-500">Click for details</p>
+  </div>
+</header>
+
+<script>
+  function toggleIF() {
+    const el = document.getElementById("ifText");
+    if (el.innerText === "IF = 99") {
+      el.innerText = "祝二位新人长长久久~";
+    } else {
+      el.innerText = "IF = 99";
+    }
+  }
+</script>
+
+<!-- Main Content -->
+<main class="max-w-3xl mx-auto mt-10 px-6">
+  <h2 class="text-xl font-semibold mb-4">Dear Mr Han Xinyan & Ms Lian Chen,</h2>
+  <p class="mb-6 leading-relaxed">
+    We are delighted to inform you that your union has been formally <span class="font-bold text-red-700">accepted</span>
+    into the collection of everlasting love, and will be published under open access for all family and friends.
+  </p>
+  <p class="mb-6 leading-relaxed">
+    Your marriage has successfully passed rigorous peer review — judged by happiness, kindness, and shared dreams.
+  </p>
+
+  <div class="flex space-x-3">
+    <button id="revealButton" class="bg-red-700 text-white px-4 py-2 rounded-lg shadow hover:bg-red-800">
+      Comments from your sincere reviewers
+    </button>
+    <button id="hideButton" class="bg-red-700 text-white px-4 py-2 rounded-lg shadow hover:bg-red-800 hidden">
+      新婚快乐~
+    </button>
+  </div>
+
+  <!-- Dropdown List -->
+  <div id="dropdown" class="mt-4 hidden space-y-3 max-h-[40vh] overflow-y-auto px-2 py-2">
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Yiwei Yang</p>
+      <p>祝韩神一家人幸福快乐，长长久久！</p>
+    </div>
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Simiao Wang</p>
+      <p>春风十里，贺卿良辰。平安喜乐，得偿所愿！</p>
+    </div>
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Yifan Jiang</p>
+      <p>新婚快乐！万事如意！</p>
+    </div>
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Xinchen Nie</p>
+      <p>热烈庆祝人生新篇章的开始！新婚快乐！</p>
+    </div>
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Lily Chen</p>
+      <p>祝婚姻为生活带来永恒的欢乐与喜悦</p>
+    </div>
+    <div class="border p-3 rounded-lg shadow hover:bg-pink-50 hidden">
+      <p class="font-bold">Shuhuai Yang</p>
+      <p>贼忙但是在自己的9周年祝韩神999</p>
+    </div>
+  </div>
+
+  <style>
+  /* 自定义滚动条样式 */
+  #dropdown::-webkit-scrollbar {
+    width: 8px;
+  }
+  #dropdown::-webkit-scrollbar-track {
+    background: #fdf2f2;
+    border-radius: 4px;
+  }
+  #dropdown::-webkit-scrollbar-thumb {
+    background: #f19494;
+    border-radius: 4px;
+  }
+  </style>
+
+</main>
+
+<script>
+const revealBtn = document.getElementById("revealButton");
+const hideBtn = document.getElementById("hideButton");
+const dropdown = document.getElementById("dropdown");
+const items = dropdown.querySelectorAll('div');
+let fireworksInterval;
+
+// 创建绽放粒子，带拖尾
+function createParticles(x, y) {
+  const colors = ['#FF0000','#FF4500','#FFA500','#FFD700'];
+  const count = 25 + Math.floor(Math.random()*15);
+
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle trail';
+    const size = Math.random()*6 + 3;
+    particle.style.width = particle.style.height = `${size}px`;
+    particle.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    particle.style.opacity = '1';
+    particle.style.transition = 'all 1s ease-out';
+
+    document.body.appendChild(particle);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = Math.random() * 100 + 50;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+
+    requestAnimationFrame(() => {
+      particle.style.left = `${x + dx}px`;
+      particle.style.top = `${y + dy}px`;
+      particle.style.opacity = '0';
+    });
+
+    setTimeout(() => particle.remove(), 1000);
+  }
+}
+
+// 创建升空烟花
+function launchFirework() {
+  const x = Math.random() * window.innerWidth * 0.9 + window.innerWidth * 0.05;
+  let y = window.innerHeight;
+  const peak = Math.random() * window.innerHeight * 0.4 + window.innerHeight * 0.1;
+  const firework = document.createElement('div');
+  firework.className = 'particle trail';
+  firework.style.width = firework.style.height = '6px';
+  firework.style.backgroundColor = '#FF0000';
+  firework.style.left = `${x}px`;
+  firework.style.top = `${y}px`;
+  firework.style.opacity = '1';
+  firework.style.transition = 'top 0.8s linear, opacity 0.8s linear';
+
+  document.body.appendChild(firework);
+
+  setTimeout(() => {
+    firework.style.top = `${peak}px`;
+    firework.style.opacity = '0.8';
+  }, 50);
+
+  setTimeout(() => {
+    createParticles(x, peak);
+    firework.remove();
+  }, 850);
+}
+
+// 点击展示
+revealBtn.addEventListener("click", () => {
+  dropdown.classList.remove('hidden');
+  items.forEach((item, index) => setTimeout(() => item.classList.remove('hidden'), index * 500));
+
+  revealBtn.classList.add('hidden');
+  hideBtn.classList.remove('hidden');
+
+  if (fireworksInterval) clearInterval(fireworksInterval);
+  fireworksInterval = setInterval(() => launchFirework(), 400);
+});
+
+// 点击收起
+hideBtn.addEventListener("click", () => {
+  dropdown.classList.add('hidden');
+  items.forEach(item => item.classList.add('hidden'));
+
+  hideBtn.classList.add('hidden');
+  revealBtn.classList.remove('hidden');
+
+  if (fireworksInterval) {
+    clearInterval(fireworksInterval);
+    fireworksInterval = null;
+  }
+});
+</script>
+</body>
+</html>
